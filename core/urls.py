@@ -1,9 +1,8 @@
 from django.urls import path
 from . import views
 from .views import ColecaoListCreate, ColecaoDetail
+from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
 
-
-# Passo 3 - Configurando as rotas: Atualizacao das rotas para utilizar as classes de views
 urlpatterns = [
 
     path('livros/', views.LivroList.as_view(), name='livros-list'),
@@ -17,5 +16,9 @@ urlpatterns = [
 
     path('colecoes/', ColecaoListCreate.as_view(), name='colecao-list-create'),
     path('colecoes/<int:pk>/', ColecaoDetail.as_view(), name='colecao-detail'),
+
+    # Documentação da API
+    path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
+    path('api/docs/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
 
 ]

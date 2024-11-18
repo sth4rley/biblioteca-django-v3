@@ -46,6 +46,9 @@ INSTALLED_APPS = [
     # Token authentication
     "rest_framework.authtoken",
 
+    # drf_spectacular
+    "drf_spectacular",
+
 
 ]
 
@@ -60,15 +63,15 @@ REST_FRAMEWORK = {
         "rest_framework.filters.SearchFilter",
     ),
 
-    # para que todas as requisições precisam incluir um token de autenticação para que o usuário seja reconhecido como autenticado.
-    #"DEFAULT_AUTHENTICATION_CLASSES": [
-    #    "rest_framework.authentication.TokenAuthentication",
-    #],
-    # apenas usuários autenticados possam acessar as views
-    #"DEFAULT_PERMISSION_CLASSES": [
-    #    "rest_framework.permissions.IsAuthenticated",
-    #],
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
 
+}
+
+SPECTACULAR_SETTINGS = {
+    "TITLE": "API Biblioteca",
+    "DESCRIPTION": "API para gerenciamento de livros e coleções",
+    "VERSION": "1.0.0",
+    "SERVE_INCLUDE_SCHEMA": False,
 }
 
 MIDDLEWARE = [
