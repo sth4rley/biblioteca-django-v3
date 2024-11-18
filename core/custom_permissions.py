@@ -1,9 +1,7 @@
 from rest_framework import permissions
 
-class IsColecionador(permissions.BasePermission):
-    """
-    Permissão personalizada que permite apenas ao colecionador modificar sua coleção.
-    """
+# Passo 1.5 -  arquivo custom_permissions.py com a permissão para que apenas o colecionador possa modificar sua coleção
+class IsCurrentUserOwnerOrReadOnly(permissions.BasePermission):
 
     def has_object_permission(self, request, view, obj):
         # Todos os usuários podem ler (GET, HEAD ou OPTIONS)

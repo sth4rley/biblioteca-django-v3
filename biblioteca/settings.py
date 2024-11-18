@@ -40,22 +40,34 @@ INSTALLED_APPS = [
     'core.apps.CoreConfig',
     'rest_framework',
 
-    # Passo 2.1 - Adicionando o django_filters
-    'django_filters'
+    # Django filter
+    'django_filters',
+
+    # Token authentication
+    "rest_framework.authtoken",
+
+
 ]
 
 REST_FRAMEWORK = {
 
-    # Passo 2.3 - Configuração global de paginação no projeto.
     "DEFAULT_PAGINATION_CLASS": "core.pagination.LimitOffsetPaginationWithUpperBound",
     "PAGE_SIZE": 5,
 
-    # Passo 2.2 - configuração global dos filtros no projeto
     "DEFAULT_FILTER_BACKENDS": (
         "django_filters.rest_framework.DjangoFilterBackend",
         "rest_framework.filters.OrderingFilter",
         "rest_framework.filters.SearchFilter",
     ),
+
+    # para que todas as requisições precisam incluir um token de autenticação para que o usuário seja reconhecido como autenticado.
+    #"DEFAULT_AUTHENTICATION_CLASSES": [
+    #    "rest_framework.authentication.TokenAuthentication",
+    #],
+    # apenas usuários autenticados possam acessar as views
+    #"DEFAULT_PERMISSION_CLASSES": [
+    #    "rest_framework.permissions.IsAuthenticated",
+    #],
 
 }
 

@@ -3,8 +3,8 @@ from .serializers import LivroSerializer, CategoriaSerializer, AutorSerializer, 
 from .filters import LivroFilter
 from rest_framework import generics, permissions
 from .serializers import ColecaoSerializer
-from .custom_permissions import IsColecionador
-
+from . import custom_permissions
+from rest_framework.authentication import TokenAuthentication
 
 # livro
 class LivroList(generics.ListCreateAPIView):
@@ -53,16 +53,21 @@ class AutorDetail(generics.RetrieveUpdateDestroyAPIView):
 class ColecaoListCreate(generics.ListCreateAPIView):
     queryset = Colecao.objects.all()
     serializer_class = ColecaoSerializer
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    name = "colecao-list-create"
+    permission_classes = [permissions.IsAuthenticated]  # Segundo enunciado, apenas usuarios autenticados podem acessar todas as coleções de livros (de todos os colecionadores)
+    authentication_classes = [TokenAuthentication]
 
     def perform_create(self, serializer):
         # Define o usuário autenticado como o colecionador
         serializer.save(colecionador=self.request.user)
-    name = "colecao-list-create"
 
 # Recuperação, Edição e Exclusão de Coleção
 class ColecaoDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Colecao.objects.all()
     serializer_class = ColecaoSerializer
-    permission_classes = [IsColecionador]
     name = "colecao-detail"
+    permission_classes = (
+        permissions.IsAuthenticatedOrReadOnly,
+        custom_permissions.IsCurrentUserOwnerOrReadOnly,
+    )
+    authentication_classes = [TokenAuthentication]
