@@ -49,6 +49,9 @@ INSTALLED_APPS = [
     # drf_spectacular
     "drf_spectacular",
 
+    # corsheaders
+    "corsheaders",
+
 
 ]
 
@@ -82,6 +85,15 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    # cors
+    "corsheaders.middleware.CorsMiddleware",
+    "django.middleware.common.CommonMiddleware",
+]
+
+CORS_ALLOW_ALL_ORIGINS = True # Permite todas as origens de requisição (não recomendado para produção)
+
+CORS_ALLOWED_ORIGINS = [ # Permite apenas as origens de requisição listadas
+    "http://192.168.1.100",
 ]
 
 ROOT_URLCONF = 'biblioteca.urls'
